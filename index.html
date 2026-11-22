@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vegan Recipes Daily — Bright, easy vegan recipes for every day</title>
+<meta name="description" content="Vegan Recipes Daily: free vegan recipes, protein calculator, ingredient swaps, and meal planning tools.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+
+*{box-sizing:border-box}body{margin:0;background:#fffbe6;color:#333;font-family:'Trebuchet MS',Verdana,sans-serif;line-height:1.65}
+.wrap{max-width:980px;margin:0 auto;padding:0 18px}
+.site-header{background:linear-gradient(90deg,#43a047,#ff9800,#fdd835);padding:22px 0 16px}
+.brand{color:#fff;font-size:32px;font-weight:bold;text-decoration:none;text-shadow:1px 1px 2px rgba(0,0,0,.25)}
+.tagline{color:#fff;margin:4px 0 12px;font-size:17px}
+.nav a{background:#fff;color:#2e7d32;text-decoration:none;margin-right:10px;padding:6px 14px;border-radius:20px;font-weight:bold}
+.nav a:hover{background:#ffe082}
+.hero{background:#fff;border:3px dashed #ff9800;border-radius:24px;padding:30px;margin:26px 0;text-align:center}
+.hero h1{margin:0 0 8px;color:#2e7d32;font-size:34px}
+.hero p{font-size:18px;color:#555}
+h2{color:#e65100}h3{color:#2e7d32}
+.tool{background:#fff;border:3px solid #aed581;border-radius:24px;padding:20px;margin:18px 0;box-shadow:0 4px 10px rgba(0,0,0,.08)}
+.tool h3{margin-top:0}
+label{display:block;margin:8px 0 4px;font-weight:bold}
+input,select{width:100%;max-width:340px;padding:10px;border-radius:14px;border:2px solid #aed581;background:#f9fff2;font-size:15px}
+button{background:#ff9800;color:#fff;border:none;padding:11px 22px;border-radius:20px;font-weight:bold;font-size:16px;cursor:pointer;margin-top:10px}
+button:hover{background:#fb8c00}
+.result{margin-top:12px;padding:12px;background:#f1f8e9;border:2px solid #c5e1a5;border-radius:14px}
+.guide-list{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.guide-list li{background:#fff;border:3px solid #ffd54f;border-radius:24px;padding:16px}
+.guide-list a{color:#e65100;font-weight:bold;text-decoration:none;font-size:18px}
+.guide-list p{color:#555;margin:6px 0 0}
+.guide h1{color:#2e7d32}.lede{font-size:18px;color:#555}
+.recipe-card{background:#fff;border-radius:18px;padding:14px;margin:10px 0;border:2px solid #e0e0e0}
+.site-footer{background:#2e7d32;color:#fff;padding:22px 0;margin-top:44px}
+.site-footer a{color:#ffe082}
+a{color:#2e7d32}
+table{border-collapse:collapse;width:100%;margin:12px 0}td,th{border:2px solid #c5e1a5;padding:8px;text-align:left}
+@media(max-width:640px){.guide-list{grid-template-columns:1fr}.brand{font-size:26px}.hero h1{font-size:26px}}
+.featured-img{width:100%;height:auto;border-radius:24px;margin:12px 0}
+.card-img{width:100%;height:auto;border-radius:18px;display:block;margin-bottom:10px}
+
+</style>
+</head>
+<body>
+<header class="site-header"><div class="wrap"><a class="brand" href="index.html">Vegan Recipes Daily</a><p class="tagline">Bright, easy vegan recipes for every day</p><nav class="nav"><a href="index.html">Home</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="disclaimer.html">Disclaimer</a></nav></div></header>
+<main class="wrap">
+<section class="hero"><h1>Good food, plants only</h1><p>Colourful, practical vegan recipes and handy kitchen tools — from quick breakfasts to weekend baking. Everything here is 100% plant-based and beginner-friendly.</p></section>
+<section><h2>Free Tools</h2><div class="tool"><h3>Recipe Finder</h3><p>Filter our recipe ideas by category and cooking time.</p>
+<label>Category</label><select id="rfCat"><option value="all">All categories</option><option value="breakfast">Breakfast</option><option value="lunch">Lunch</option><option value="dinner">Dinner</option><option value="dessert">Dessert</option></select>
+<label>Max time (minutes)</label><input type="number" id="rfTime" value="30" min="5" max="180">
+<button onclick="recipeFilter()">Find recipes</button><div class="result" id="rfOut">Pick a category and time, then press the button.</div></div>
+<div class="tool"><h3>Serving Scaler</h3><p>Scale a recipe up or down. Enter the original amount and servings.</p>
+<label>Original amount (e.g. grams of oats)</label><input type="number" id="scAmt" value="200" min="1">
+<label>Original servings</label><input type="number" id="scFrom" value="2" min="1">
+<label>New servings</label><input type="number" id="scTo" value="4" min="1">
+<button onclick="scaleServings()">Scale recipe</button><div class="result" id="scOut">Enter the numbers and press scale.</div></div>
+<div class="tool"><h3>Vegan Protein Calculator</h3><p>Most adults need 0.8 to 1.6 g of protein per kg of body weight per day.</p>
+<label>Body weight (kg)</label><input type="number" id="vpW" value="70" min="20" max="300">
+<label>Activity level</label><select id="vpAct"><option value="0.8">Lightly active (0.8 g/kg)</option><option value="1.2" selected>Moderately active (1.2 g/kg)</option><option value="1.6">Very active / training (1.6 g/kg)</option></select>
+<button onclick="veganProtein()">Calculate protein</button><div class="result" id="vpOut">Enter your weight and press calculate.</div></div>
+<div class="tool"><h3>Ingredient Swap Finder</h3><p>Find a plant-based substitute for egg or dairy.</p>
+<label>Ingredient to replace</label><select id="swIng"><option value="egg">Egg (in baking)</option><option value="egg-scramble">Egg (scrambled)</option><option value="milk">Milk</option><option value="butter">Butter</option><option value="cheese">Cheese</option><option value="yoghurt">Yoghurt</option><option value="cream">Cream</option><option value="honey">Honey</option></select>
+<button onclick="findSwap()">Find my swap</button><div class="result" id="swOut">Choose an ingredient and press the button.</div></div>
+<div class="tool"><h3>Weekly Meal Planner</h3><p>Get a simple 7-day vegan meal plan.</p>
+<label>Your goal</label><select id="wpGoal"><option>Balanced everyday eating</option><option>High protein</option><option>Quick and easy</option><option>Budget friendly</option></select>
+<button onclick="weeklyPlan()">Show my week</button><div class="result" id="wpOut">Choose a goal and press the button.</div></div></section>
+<section><h2>Guides</h2><ul class="guide-list"><li><a href="guides/vegan-breakfast-ideas.html"><img src="images/vegan-breakfast-ideas.jpg" alt="Vegan Breakfast Ideas" class="card-img">Vegan Breakfast Ideas</a><p>Ten quick, filling vegan breakfasts for busy mornings and slow weekends alike.</p></li><li><a href="guides/vegan-protein-sources.html"><img src="images/vegan-protein-sources.jpg" alt="Vegan Protein Sources" class="card-img">Vegan Protein Sources</a><p>The best plant proteins, how much they contain, and how to combine them across the day.</p></li><li><a href="guides/vegan-baking.html"><img src="images/vegan-baking.jpg" alt="Vegan Baking" class="card-img">Vegan Baking</a><p>How to bake cakes, cookies, and bread without eggs or dairy — with swaps that actually work.</p></li><li><a href="guides/tofu-recipes.html"><img src="images/tofu-recipes.jpg" alt="Tofu Recipes" class="card-img">Tofu Recipes</a><p>How to cook tofu properly: pressing, marinating, and ten recipes that make it delicious.</p></li><li><a href="guides/vegan-desserts.html"><img src="images/vegan-desserts.jpg" alt="Vegan Desserts" class="card-img">Vegan Desserts</a><p>Cakes, mousses, ice cream, and cookies — all vegan, all delicious, with tips for perfect results.</p></li><li><a href="guides/vegan-meal-prep.html"><img src="images/vegan-meal-prep.jpg" alt="Vegan Meal Prep" class="card-img">Vegan Meal Prep</a><p>A week of vegan meals from one cooking session, with storage times and a sample plan.</p></li><li><a href="guides/vegan-lunches.html"><img src="images/vegan-lunches.jpg" alt="Vegan Lunches" class="card-img">Vegan Lunches</a><p>Quick vegan lunches for work and home: bowls, wraps, soups, and salads that keep you full.</p></li><li><a href="guides/vegan-dinners.html"><img src="images/vegan-dinners.jpg" alt="Vegan Dinners" class="card-img">Vegan Dinners</a><p>Family-friendly vegan dinners: curries, pastas, stews, and one-pan meals for weeknights.</p></li><li><a href="guides/vegan-smoothies.html"><img src="images/vegan-smoothies.jpg" alt="Vegan Smoothies" class="card-img">Vegan Smoothies</a><p>How to build a balanced vegan smoothie: bases, proteins, and recipes for every goal.</p></li><li><a href="guides/vegan-soups.html"><img src="images/vegan-soups.jpg" alt="Vegan Soups" class="card-img">Vegan Soups</a><p>Comforting vegan soups for every season: lentil, tomato, minestrone, and creamy blends.</p></li><li><a href="guides/vegan-salads.html"><img src="images/vegan-salads.jpg" alt="Vegan Salads" class="card-img">Vegan Salads</a><p>Salads that are actually meals: grain salads, hearty greens, and dressings that make them shine.</p></li><li><a href="guides/vegan-pasta.html"><img src="images/vegan-pasta.jpg" alt="Vegan Pasta" class="card-img">Vegan Pasta</a><p>Vegan pasta dishes: tomato, creamy cashew, pesto, and puttanesca — plus pasta tips.</p></li><li><a href="guides/vegan-burgers.html"><img src="images/vegan-burgers.jpg" alt="Vegan Burgers" class="card-img">Vegan Burgers</a><p>How to make vegan burgers that hold together and taste great: beans, lentils, and mushrooms.</p></li><li><a href="guides/vegan-cheese-alternatives.html"><img src="images/vegan-cheese-alternatives.jpg" alt="Vegan Cheese Alternatives" class="card-img">Vegan Cheese Alternatives</a><p>Nutritional yeast, cashew cheese, and shop-bought vegan cheese — what works and where.</p></li><li><a href="guides/vegan-snacks.html"><img src="images/vegan-snacks.jpg" alt="Vegan Snacks" class="card-img">Vegan Snacks</a><p>Healthy vegan snacks for work, school, and evenings — sweet, salty, and protein-rich.</p></li><li><a href="guides/vegan-holiday-recipes.html"><img src="images/vegan-holiday-recipes.jpg" alt="Vegan Holiday Recipes" class="card-img">Vegan Holiday Recipes</a><p>Festive vegan recipes for Christmas, Thanksgiving, and celebrations — roasts, sides, and desserts.</p></li><li><a href="guides/vegan-for-beginners.html"><img src="images/vegan-for-beginners.jpg" alt="Vegan for Beginners" class="card-img">Vegan for Beginners</a><p>Starting a vegan diet: the first month, pantry staples, eating out, and common mistakes.</p></li><li><a href="guides/vegan-iron-and-b12.html"><img src="images/vegan-iron-and-b12.jpg" alt="Vegan Iron &amp; B12" class="card-img">Vegan Iron &amp; B12</a><p>How vegans get enough iron and vitamin B12: best food sources, absorption tips, and supplements.</p></li><li><a href="guides/vegan-meal-planning.html"><img src="images/vegan-meal-planning.jpg" alt="Vegan Meal Planning" class="card-img">Vegan Meal Planning</a><p>How to plan a week of vegan meals: templates, shopping lists, and batch-cooking routines.</p></li><li><a href="guides/vegan-kids-meals.html"><img src="images/vegan-kids-meals.jpg" alt="Vegan Kids Meals" class="card-img">Vegan Kids Meals</a><p>Healthy, fun vegan meals for children: lunchboxes, dinners, snacks, and nutrients to watch.</p></li></ul></section>
+</main>
+<footer class="site-footer"><div class="wrap"><p>Vegan Recipes Daily — Bright, easy vegan recipes for every day</p><p><a href="about.html">About</a> | <a href="contact.html">Contact</a> | <a href="privacy.html">Privacy Policy</a> | <a href="disclaimer.html">Disclaimer</a></p><p>Content on this site is for general information only and is not medical advice.</p></div></footer>
+<script>
+
+var RECIPES=[
+{name:'Berry Overnight Oats',cat:'breakfast',time:10},
+{name:'Tofu Scramble with Turmeric',cat:'breakfast',time:15},
+{name:'Banana Pancakes',cat:'breakfast',time:20},
+{name:'Chickpea Salad Sandwich',cat:'lunch',time:15},
+{name:'Lentil Soup',cat:'lunch',time:35},
+{name:'Buddha Bowl with Tahini',cat:'lunch',time:25},
+{name:'Mushroom Pasta',cat:'dinner',time:30},
+{name:'Vegan Chilli with Beans',cat:'dinner',time:45},
+{name:'Stir-Fried Tofu and Vegetables',cat:'dinner',time:20},
+{name:'Roasted Vegetable Curry',cat:'dinner',time:40},
+{name:'Chocolate Avocado Mousse',cat:'dessert',time:15},
+{name:'Baked Apples with Oats',cat:'dessert',time:35}];
+function recipeFilter(){var cat=document.getElementById('rfCat').value,t=parseFloat(document.getElementById('rfTime').value);
+var list=RECIPES.filter(function(r){return (cat==='all'||r.cat===cat)&&r.time<=t;});
+var out=document.getElementById('rfOut');
+if(!list.length){out.textContent='No recipes match. Try a longer time or a different category.';return;}
+out.innerHTML='<strong>'+list.length+' recipe(s):</strong><br>'+list.map(function(r){return r.name+' — '+r.time+' min ('+r.cat+')';}).join('<br>');}
+function scaleServings(){var a=parseFloat(document.getElementById('scAmt').value),f=parseFloat(document.getElementById('scFrom').value),t=parseFloat(document.getElementById('scTo').value);
+if(!a||!f||!t){document.getElementById('scOut').textContent='Please enter all three numbers.';return;}
+var n=a*t/f;
+document.getElementById('scOut').innerHTML='For '+t+' servings (was '+f+'), use <strong>'+(Math.round(n*10)/10)+'</strong> instead of '+a+'.';}
+function veganProtein(){var w=parseFloat(document.getElementById('vpW').value),r=parseFloat(document.getElementById('vpAct').value);
+if(!w||w<=0){document.getElementById('vpOut').textContent='Please enter a valid weight.';return;}
+var g=Math.round(w*r);
+document.getElementById('vpOut').innerHTML='Aim for about <strong>'+g+' g of protein per day</strong> ('+w+' kg x '+r+' g/kg). Great plant sources: lentils (18 g per cooked cup), tofu (20 g per cup), chickpeas (15 g per cup), quinoa (8 g per cup), tempeh (19 g per 100 g), and peanut butter (8 g per 2 tbsp).';}
+function findSwap(){var k=document.getElementById('swIng').value;
+var swaps={'egg':'1 tbsp ground flaxseed + 3 tbsp water, rested 5 minutes (equals 1 egg in baking).','egg-scramble':'Crumbled firm tofu with turmeric, nutritional yeast, and a pinch of black salt.','milk':'Oat, soy, or almond milk, used 1:1. Soy milk is best for cooking because it is higher in protein.','butter':'Coconut oil, olive oil, or vegan butter, used 1:1 in most recipes.','cheese':'Nutritional yeast for a cheesy flavour, cashew cheese, or shop-bought vegan cheese for melting.','yoghurt':'Coconut yoghurt or soy yoghurt, used 1:1.','cream':'Blended soaked cashews with water, or full-fat coconut milk from a tin.','honey':'Maple syrup or agave syrup, used 1:1.'};
+document.getElementById('swOut').innerHTML='<strong>Swap:</strong> '+swaps[k];}
+function weeklyPlan(){var g=document.getElementById('wpGoal').value;
+var days=[['Monday','Overnight oats','Lentil soup','Mushroom pasta'],['Tuesday','Tofu scramble','Chickpea sandwich','Vegan chilli'],['Wednesday','Banana pancakes','Buddha bowl','Stir-fried tofu'],['Thursday','Smoothie bowl','Lentil soup','Roasted vegetable curry'],['Friday','Overnight oats','Buddha bowl','Mushroom pasta'],['Saturday','Tofu scramble','Chickpea sandwich','Vegan chilli'],['Sunday','Banana pancakes','Lentil soup','Stir-fried tofu']];
+var note=g==='High protein'?'Protein focus: add tofu, tempeh, lentils, and edamame to each meal.':g==='Quick and easy'?'Quick focus: every meal is under 25 minutes.':g==='Budget friendly'?'Budget focus: built around lentils, beans, rice, oats, and seasonal vegetables.':'Balanced focus: a mix of grains, legumes, vegetables, and healthy fats each day.';
+document.getElementById('wpOut').innerHTML='<strong>Your week — '+g+'</strong><br>'+note+'<br><br>'+days.map(function(d){return '<strong>'+d[0]+':</strong> '+d[1]+' / '+d[2]+' / '+d[3];}).join('<br>');}
+
+</script>
+</body>
+</html>
